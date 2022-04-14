@@ -1,8 +1,14 @@
 import { useState } from "react"
-//import { toast } from 'react-toastify'
 import { Link, useNavigate } from "react-router-dom"
-//import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-//import OAuth from '../components/OAuth'
+//import { toast } from "react-toastify"
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth"
+import { setDoc, doc, serverTimestamp } from "firebase/firestore"
+import { db } from "../firebase.config"
+//import OAuth from "../components/OAuth"
 import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg"
 import visibilityIcon from "../assets/svg/visibilityIcon.svg"
 
@@ -24,25 +30,35 @@ function SignUp() {
     }))
   }
 
-  // const onSubmit = async (e) => {
-  //   e.preventDefault()
+  const onSubmit = async (e) => {
+    e.preventDefault()
 
-  //   try {
-  //     const auth = getAuth()
+    try {
+      const auth = getAuth()
 
-  //     const userCredential = await signInWithEmailAndPassword(
-  //       auth,
-  //       email,
-  //       password
-  //     )
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      )
 
-  //     if (userCredential.user) {
-  //       navigate('/')
-  //     }
-  //   } catch (error) {
-  //     toast.error('Bad User Credentials')
-  //   }
-  // }
+      const user = userCredential.user
+
+      updateProfile(auth.currentUser, {
+        displayName: name,
+      })
+
+      const formDataCopy = { ...formData }
+      delete formDataCopy.password
+      formDataCopy.timestamp = serverTimestamp()
+
+      await setDoc(doc(db, "users", user.uid), formDataCopy)
+
+      navigate("/")
+    } catch (error) {
+      //toast.error("Something went wrong with registration")
+    }
+  }
 
   return (
     <>
@@ -51,7 +67,7 @@ function SignUp() {
           <p className="pageHeader">Welcome Back!</p>
         </header>
 
-        <form>
+        <form onSubmit={onSubmit}>
           <input
             type="text"
             className="nameInput"
@@ -60,7 +76,6 @@ function SignUp() {
             value={name}
             onChange={onChange}
           />
-
           <input
             type="email"
             className="emailInput"
