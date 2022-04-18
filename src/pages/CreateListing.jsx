@@ -92,7 +92,7 @@ function CreateListing() {
 
     if (geolocationEnabled) {
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=$AIzaSyAzf7-yxngmB9QEA_VYQWM1EezaryBm51E`
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`
       )
 
       const data = await response.json()
@@ -107,7 +107,6 @@ function CreateListing() {
 
       if (location === undefined || location.includes("undefined")) {
         setLoading(false)
-        console.log(data)
         toast.error("Please enter a correct address")
         return
       }
