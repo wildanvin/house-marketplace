@@ -13,6 +13,7 @@ import ForgotPassword from "./pages/ForgotPassword"
 import Category from "./pages/Category"
 import CreateListing from "./pages/CreateListing"
 import Listing from "./pages/Listing"
+import Contact from "./pages/Contact"
 
 //Components
 import Navbar from "./components/Navbar"
@@ -38,6 +39,7 @@ function App() {
             path="/category/:categotyName/:listingId"
             element={<Listing />}
           />
+          <Route path="/contact/:landlordId" element={<Contact />} />
         </Routes>
         <Navbar />
       </Router>
