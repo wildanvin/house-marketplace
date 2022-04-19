@@ -109,7 +109,6 @@ function Listing() {
           </li>
           <li>{listing.parking && "Parking Spot"}</li>
           <li>{listing.furnished && "Furnished"}</li>
-          {console.log(listing)}
         </ul>
 
         <p className="listingLocationTitle">Location</p>
@@ -117,7 +116,7 @@ function Listing() {
         <div className="leafletContainer">
           <MapContainer
             style={{ height: "100%", width: "100%" }}
-            center={[listing.geoLocation.lat, listing.geoLocation.lng]}
+            center={[listing.geolocation.lat, listing.geolocation.lng]}
             zoom={13}
             scrollWheelZoom={false}
           >
@@ -127,7 +126,7 @@ function Listing() {
             />
 
             <Marker
-              position={[listing.geoLocation.lat, listing.geoLocation.lng]}
+              position={[listing.geolocation.lat, listing.geolocation.lng]}
             >
               <Popup>{listing.location}</Popup>
             </Marker>
