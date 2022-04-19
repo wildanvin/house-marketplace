@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 // import { Helmet } from "react-helmet"
-// import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet"
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet"
 // import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from "swiper"
 // import { Swiper, SwiperSlide } from "swiper/react"
 // import "swiper/swiper-bundle.css"
@@ -109,14 +109,15 @@ function Listing() {
           </li>
           <li>{listing.parking && "Parking Spot"}</li>
           <li>{listing.furnished && "Furnished"}</li>
+          {console.log(listing)}
         </ul>
 
         <p className="listingLocationTitle">Location</p>
 
-        {/* <div className="leafletContainer">
+        <div className="leafletContainer">
           <MapContainer
             style={{ height: "100%", width: "100%" }}
-            center={[listing.geolocation.lat, listing.geolocation.lng]}
+            center={[listing.geoLocation.lat, listing.geoLocation.lng]}
             zoom={13}
             scrollWheelZoom={false}
           >
@@ -126,12 +127,12 @@ function Listing() {
             />
 
             <Marker
-              position={[listing.geolocation.lat, listing.geolocation.lng]}
+              position={[listing.geoLocation.lat, listing.geoLocation.lng]}
             >
               <Popup>{listing.location}</Popup>
             </Marker>
           </MapContainer>
-        </div> */}
+        </div>
 
         {auth.currentUser?.uid !== listing.userRef && (
           <Link
